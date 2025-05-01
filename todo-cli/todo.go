@@ -9,10 +9,10 @@ import (
 )
 
 type item struct {
-	Task        string
-	Done        bool
-	CreatedAt   time.Time
-	CompletedAt time.Time
+	Task        string    `json:"task"`
+	Done        bool      `json:"done"`
+	CreatedAt   time.Time `json:"created_at"`
+	CompletedAt time.Time `json:"updated_at"`
 }
 
 type List []item
@@ -65,4 +65,25 @@ func (l *List) Get(filename string) error {
 	}
 
 	return json.Unmarshal(file, l)
+}
+
+func (l *List) String() string {
+	formatted := ""
+	for k, t := range *l {
+
+		prefix := " "
+		if t.Done {
+			prefix = "X "
+		}
+		formatted += fmt.Sprintf("%s%d: %s\n", prefix, k+1, t.Task)
+	}
+	return formatted
+}
+
+func (l *List) PrintIncomplete() {
+	for i, item := range *l {
+		if !item.Done {
+			fmt.Printf("%d: %s\n", i+1, item.Task)
+		}
+	}
 }

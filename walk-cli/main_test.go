@@ -25,7 +25,7 @@ func TestRun(t *testing.T) {
 		{
 			name:     "NoFilter",
 			root:     "testdata",
-			cfg:      config{ext: "", size: 0, list: true},
+			cfg:      config{exts: []string{}, size: 0, list: true},
 			expected: "testdata/dir.log\ntestdata/dir2/script.sh\n",
 		}, {
 			name:     "FitlerExtensionMatch",

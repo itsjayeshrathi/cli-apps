@@ -9,8 +9,19 @@ import (
 	"path/filepath"
 )
 
+type multiFlag []string
+
+func (m *multiFlag) String() string {
+	return fmt.Sprintf("%v", *m)
+}
+
+func (m *multiFlag) Set(value string) error {
+	*m = append(*m, value)
+	return nil
+}
+
 type config struct {
-	ext     string
+	exts    []string
 	size    int64
 	list    bool
 	del     bool
@@ -30,7 +41,7 @@ func run(root string, out io.Writer, cfg config) error {
 		if err != nil {
 			return err
 		}
-		if filterOut(path, cfg.ext, cfg.size, info) {
+		if filterOut(path, cfg.exts, cfg.size, info) {
 			return nil
 		}
 		if cfg.list {
@@ -49,10 +60,10 @@ func run(root string, out io.Writer, cfg config) error {
 }
 
 func main() {
-
+	var extensions multiFlag
+	flag.Var(&extensions, "ext", "File extensions to be filter out.")
 	root := flag.String("root", ".", "Root directory to start.")
 	logFile := flag.String("log", "", "Log deletes to this file")
-	ext := flag.String("ext", "", "Extension to filter out.")
 	size := flag.Int64("size", 0, "Minimum File size to filter out.")
 	list := flag.Bool("list", false, "List files only.")
 	del := flag.Bool("del", false, "Delete files only.")
@@ -60,7 +71,7 @@ func main() {
 	flag.Parse()
 
 	c := config{
-		ext:     *ext,
+		exts:    extensions,
 		size:    *size,
 		list:    *list,
 		del:     *del,

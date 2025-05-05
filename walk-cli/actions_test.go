@@ -10,15 +10,15 @@ func TestFilterOut(t *testing.T) {
 	testCases := []struct {
 		name     string
 		file     string
-		ext      string
+		exts     []string
 		size     int64
 		expected bool
 	}{
-		{"FilterNoExtension", "testdata/dir.log", "", 0, false},
-		{"FilterExtensionMatch", "testdata/dir.log", ".log", 0, false},
-		{"FilterExtensionNoMatch", "testdata/dir.log", ".sh", 0, true},
-		{"FilterExtensionSizeMatch", "testdata/dir.log", ".log", 10, false},
-		{"FilterExeensionSizeNoMatch", "testdata/dir.log", ".log", 20, true},
+		{"FilterNoExtension", "testdata/dir.log", []string{""}, 0, false},
+		{"FilterExtensionMatch", "testdata/dir.log", []string{".log"}, 0, false},
+		{"FilterExtensionNoMatch", "testdata/dir.log", []string{".sh"}, 0, true},
+		{"FilterExtensionSizeMatch", "testdata/dir.log", []string{".log"}, 10, false},
+		{"FilterExeensionSizeNoMatch", "testdata/dir.log", []string{".log"}, 20, true},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
@@ -26,7 +26,7 @@ func TestFilterOut(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			f := filterOut(tc.file, tc.ext, tc.size, info)
+			f := filterOut(tc.file, tc.exts, tc.size, info)
 			if f != tc.expected {
 				t.Errorf("Expected %t got instead %t instead\n", tc.expected, f)
 			}

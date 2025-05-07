@@ -1,7 +1,0 @@
-goos: linux
-goarch: amd64
-pkg: github.com/itsjayeshrathi/colstat-cli
-cpu: AMD Ryzen 5 5600H with Radeon Graphics         
-BenchmarkRun-12    	      10	5765687050 ns/op	534481432 B/op	 5041047 allocs/op
-PASS
-ok  	github.com/itsjayeshrathi/colstat-cli	63.219s

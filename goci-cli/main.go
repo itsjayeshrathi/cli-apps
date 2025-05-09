@@ -76,7 +76,24 @@ func run(proj string, out io.Writer) error {
 		close(done)
 	}()
 
-	return nil
+	for {
+		select {
+		case rec := <-sig:
+			{
+				signal.Stop(sig)
+				return fmt.Errorf("%s: Exiting: %w", rec, ErrSignal)
+			}
+		case err := <-errCh:
+			{
+				return err
+			}
+		case <-done:
+			{
+				return nil
+			}
+		}
+	}
+
 }
 
 func main() {

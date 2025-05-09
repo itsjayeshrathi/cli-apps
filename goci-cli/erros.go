@@ -13,6 +13,7 @@ type stepErr struct {
 
 var (
 	ErrValidation = errors.New("Validation failed")
+	ErrSignal     = errors.New("Recive signal")
 )
 
 func (s *stepErr) Error() string {

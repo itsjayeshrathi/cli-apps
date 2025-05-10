@@ -12,6 +12,9 @@ Each folder contains a standalone Go CLI tool with its own `go.mod`, source code
 | [`todo-cli`](./todo-cli) | A simple todo list manager using file-based storage.            |
 | [`walk-cli`](./walk-cli) | Walks a directory tree and filters/list/deletes files based on extension, size, etc. |
 | [`wc-cli`](./wc-cli)     | A basic word count utility similar to the Unix `wc` command.    |
+| [`colstat-cli`](./colstat-cli)| Simple tool for analyzing csvs in order to understand benchmarking and profiling |
+| [`unarchive-cli`](./unarchive-cli)| A tool for unarchiving zipped files at particular location. |
+| [`goci-cli`](./goci-cli)| Similar to ci-cd tool for golang projects. |
 
 > ✅ Each project includes tests and is written using idiomatic Go.
 

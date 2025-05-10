@@ -28,6 +28,6 @@ Each folder contains a standalone Go CLI tool with its own `go.mod`, source code
 Clone the repo and `cd` into any project directory to run it:
 
 ```bash
-git clone https://github.com/yourusername/cli-apps.git
+git clone https://github.com/itsjayeshrathi/cli-apps.git
 cd cli-apps/mdp-cli
 go run main.go testdata/test.md

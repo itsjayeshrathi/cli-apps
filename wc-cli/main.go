@@ -14,9 +14,15 @@ func count(r io.Reader, countLines bool, countBytes bool) (int, int) {
 	reader := bufio.NewReader(r)
 	for {
 		line, err := reader.ReadString('\n')
-		if countLines {
+
+		if err != nil && err != io.EOF {
+			fmt.Fprintf(os.Stderr, "Error reading: %v\n", err)
+			break
+		}
+		if countLines && strings.HasSuffix(line, "\n") {
 			lines++
 		}
+
 		if !countLines {
 			scanner := bufio.NewScanner(strings.NewReader(line))
 			scanner.Split(bufio.ScanWords)
@@ -24,17 +30,18 @@ func count(r io.Reader, countLines bool, countBytes bool) (int, int) {
 				words++
 			}
 		}
+
 		bytes += len(line)
 
 		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error reading %v\n", err)
+			if countLines && len(line) > 0 && strings.HasSuffix(line, "\n") {
+				lines++
+			}
 			break
 		}
 
 	}
+
 	if countLines && countBytes {
 		return lines, bytes
 	} else if countLines {

@@ -1,28 +1,52 @@
 /*
 Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
 	"fmt"
+	"io"
+	"os"
 
+	"github.com/itsjayeshrathi/pscan-cli/scan"
 	"github.com/spf13/cobra"
 )
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "A brief description of your command",
+	Use:   "add <host1>...<hostn>",
+	Short: "Add host(s) in the list",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
+	RunE: func(cmd *cobra.Command, args []string) error {
+		hostFile, err := cmd.Flags().GetString("hosts-file")
+		if err != nil {
+			return err
+		}
+		return addAction(os.Stdout, hostFile, args)
 	},
+	Aliases:      []string{"a"},
+	Args:         cobra.MinimumNArgs(1),
+	SilenceUsage: true,
+}
+
+func addAction(out io.Writer, hostFile string, args []string) error {
+	hl := &scan.HostsList{}
+
+	if err := hl.Load(hostFile); err != nil {
+		return err
+	}
+	for _, h := range hl.Hosts {
+		if err := hl.Add(h); err != nil {
+			return err
+		}
+		fmt.Println(out, "Added host:", h)
+	}
+	return hl.Save(hostFile)
 }
 
 func init() {

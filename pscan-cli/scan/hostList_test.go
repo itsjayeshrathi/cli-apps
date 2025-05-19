@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/itsjayeshrathi/pscan-cli/cmd/scan"
+	"github.com/itsjayeshrathi/pscan-cli/scan"
 )
 
 func TestAdd(t *testing.T) {

@@ -23,7 +23,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		hostFile, err := cmd.Flags().GetString("host-file")
+		hostFile, err := cmd.Flags().GetString("hosts-file")
 		if err != nil {
 			return err
 		}
@@ -40,11 +40,11 @@ func deleteAction(out io.Writer, hostFile string, args []string) error {
 	if err := hl.Load(hostFile); err != nil {
 		return err
 	}
-	for _, h := range hl.Hosts {
+	for _, h := range args {
 		if err := hl.Remove(h); err != nil {
 			return err
 		}
-		fmt.Println(out, "Deleted host:", h)
+		fmt.Fprintln(out, "Deleted host:", h)
 	}
 	return hl.Save(hostFile)
 }

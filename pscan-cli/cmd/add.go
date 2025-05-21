@@ -40,11 +40,12 @@ func addAction(out io.Writer, hostFile string, args []string) error {
 	if err := hl.Load(hostFile); err != nil {
 		return err
 	}
-	for _, h := range hl.Hosts {
+	for _, h := range args {
+
 		if err := hl.Add(h); err != nil {
 			return err
 		}
-		fmt.Println(out, "Added host:", h)
+		fmt.Fprintln(out, "Added host:", h)
 	}
 	return hl.Save(hostFile)
 }

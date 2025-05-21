@@ -59,7 +59,7 @@ func TestHostActions(t *testing.T) {
 			actionFunction: addAction,
 		}, {
 			name:           "ListAction",
-			expectedOut:    "host1\nhost2\nhost3",
+			expectedOut:    "host1\nhost2\nhost3\n",
 			initList:       true,
 			actionFunction: listAction,
 		}, {
@@ -83,6 +83,7 @@ func TestHostActions(t *testing.T) {
 			if err := tc.actionFunction(&out, tf, tc.args); err != nil {
 				t.Fatalf("Expected error, got %q instead\n", err)
 			}
+
 			if out.String() != tc.expectedOut {
 				t.Errorf("Expected %q, got instead %q\n", tc.expectedOut, out.String())
 			}

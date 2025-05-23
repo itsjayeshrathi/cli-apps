@@ -19,7 +19,7 @@ type Results struct {
 	PortStates []PortState
 }
 
-func (s state) Strign() string {
+func (s state) String() string {
 	if s {
 		return "open"
 	}
@@ -52,5 +52,11 @@ func Run(hl *HostsList, ports []int) []Results {
 			res = append(res, r)
 			continue
 		}
+		for _, p := range ports {
+			r.PortStates = append(r.PortStates, scanPort(h, p))
+		}
+		res = append(res, r)
+
 	}
+	return res
 }

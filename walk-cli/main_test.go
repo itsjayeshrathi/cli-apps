@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -30,23 +29,23 @@ func TestRun(t *testing.T) {
 		}, {
 			name:     "FitlerExtensionMatch",
 			root:     "testdata",
-			cfg:      config{ext: ".log", size: 0, list: true},
+			cfg:      config{exts: []string{".log"}, size: 0, list: true},
 			expected: "testdata/dir.log\n",
 		}, {
 			name:     "FilterSizeMatch",
 			root:     "testdata",
-			cfg:      config{ext: "", size: 10, list: true},
+			cfg:      config{exts: []string{""}, size: 10, list: true},
 			expected: "testdata/dir.log\n",
 		}, {
 			name:     "FilterExtensionSizeNoMatch",
 			root:     "testdata",
-			cfg:      config{ext: ".log", size: 20, list: true},
+			cfg:      config{exts: []string{".log"}, size: 20, list: true},
 			expected: "",
 		},
 		{
 			name:     "FilterExtensionNoMatch",
 			root:     "testdata",
-			cfg:      config{ext: ".gz", size: 0, list: true},
+			cfg:      config{exts: []string{".gz"}, size: 0, list: true},
 			expected: "",
 		},
 	}
@@ -226,7 +225,7 @@ func RunTestArchive(t *testing.T) {
 			if expOut != res {
 				t.Errorf("Expected %q, got %q instead\n", expOut, res)
 			}
-			filesArchived, err := ioutil.ReadDir(archiveDir)
+			filesArchived, err := os.ReadDir(archiveDir)
 			if err != nil {
 				t.Fatal(err)
 			}
